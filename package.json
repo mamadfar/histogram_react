@@ -4,6 +4,19 @@
   "version": "0.1.0",
   "type": "module",
   "license": "MIT",
+    "author": "Mohammad Farhadi",
+    "description": "A simple histogram generator",
+    "keywords": [
+      "histogram",
+      "generator",
+      "react",
+      "typescript",
+      "vite"
+    ],
+    "repository": {
+      "type": "git",
+      "url": "git+"
+    },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

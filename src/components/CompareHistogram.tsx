@@ -21,7 +21,7 @@ function CompareHistogram() {
     const getImageData = (imgSrc: string): Promise<ImageData> => {
         return new Promise((resolve, reject) => {
             const img = new Image();
-            img.onload = function() {
+            img.onload = function () {
                 const canvas = document.createElement('canvas');
                 const context = canvas.getContext('2d');
                 if (!context) {
@@ -38,7 +38,7 @@ function CompareHistogram() {
         });
     }
 
-    const processImage = useCallback(async (imgSrc: string,setHistogramData: Dispatch<SetStateAction<HistogramData | null>>) => {
+    const processImage = useCallback(async (imgSrc: string, setHistogramData: Dispatch<SetStateAction<HistogramData | null>>) => {
         if (!imgSrc) return;
 
         const inImg = await getImageData(imgSrc);
@@ -61,12 +61,12 @@ function CompareHistogram() {
             histB[b]++;
         }
 
-        setHistogramData({ histBrightness, histR, histG, histB });
+        setHistogramData({histBrightness, histR, histG, histB});
     }, [])
 
     const drawHistogram = useCallback((histogramData: HistogramData | null, ctx: CanvasRenderingContext2D, color: string, offset: number) => {
         if (!histogramData || !canvasRef.current) return;
-        const { histBrightness, histR, histG, histB } = histogramData;
+        const {histBrightness, histR, histG, histB} = histogramData;
         const maxCount = histogramType === 'value' ? Math.max(...histBrightness) : Math.max(...histR, ...histG, ...histB);
         const dx = canvasRef.current.width / 256;
         const dy = (canvasRef.current.height - 8) / maxCount;
@@ -133,29 +133,41 @@ function CompareHistogram() {
         <div className="container mx-auto my-6 p-4 space-y-6">
             <div>
                 <div className="flex space-x-4 mb-4">
-                    <label className="flex items-center">
-                        <input type="radio" name="rType" value="value" checked={histogramType === 'value'} onChange={handleHistogramTypeChange} className="mr-2" /> Value
-                    </label>
-                    <label className="flex items-center">
-                        <input type="radio" name="rType" value="color" checked={histogramType === 'color'} onChange={handleHistogramTypeChange} className="mr-2" /> Color
-                    </label>
+                    <div>
+                        <input className="peer sr-only" type="radio" value="value" name="rType" id="value"
+                               checked={histogramType === 'value'} onChange={handleHistogramTypeChange}/>
+                        <label
+                            className="flex justify-center cursor-pointer rounded-xl border border-gray-300 bg-white py-2 px-6 hover:bg-gray-50 focus:outline-none peer-checked:border-transparent peer-checked:ring-2 peer-checked:ring-indigo-500 transition-all duration-500 ease-in-out"
+                            htmlFor="value">Value</label>
+                    </div>
+                    <div>
+                        <input className="peer sr-only" type="radio" value="color" name="rType" id="color"
+                               checked={histogramType === 'color'} onChange={handleHistogramTypeChange}/>
+                        <label
+                            className="flex justify-center cursor-pointer rounded-xl border border-gray-300 bg-white py-2 px-6 hover:bg-gray-50 focus:outline-none peer-checked:border-transparent peer-checked:ring-2 peer-checked:ring-indigo-500 transition-all duration-500 ease-in-out"
+                            htmlFor="color">Color</label>
+                    </div>
                 </div>
                 <div className="grid md:grid-cols-2 grid-rows-1 gap-4 h-full">
                     <div className="h-auto flex flex-col justify-between">
                         <div className="h-full border p-4">
                             <p className="font-semibold">Original image 1</p>
-                            <img ref={img1Ref} src={imageSrc1} alt="Source" className="mt-2 max-w-full h-auto max-h-56"/>
+                            <img ref={img1Ref} src={imageSrc1} alt="Source"
+                                 className="mt-2 max-w-full h-auto max-h-56"/>
                         </div>
                         <p className="mt-2 font-semibold">Image 1</p>
-                        <input type="file" onChange={(e) => handleImageChange(e, setImageSrc1)} className="border p-2 w-full mt-2"/>
+                        <input type="file" accept="image/*" capture="user"
+                               onChange={(e) => handleImageChange(e, setImageSrc1)} className="border p-2 w-full mt-2"/>
                     </div>
                     <div className="h-auto flex flex-col justify-between">
                         <div className="h-full border p-4">
                             <p className="font-semibold">Original image 2</p>
-                            <img ref={img2Ref} src={imageSrc2} alt="Source" className="mt-2 max-w-full h-auto max-h-56"/>
+                            <img ref={img2Ref} src={imageSrc2} alt="Source"
+                                 className="mt-2 max-w-full h-auto max-h-56"/>
                         </div>
                         <p className="mt-2 font-semibold">Image 2</p>
-                        <input type="file" onChange={(e) => handleImageChange(e, setImageSrc2)} className="border p-2 w-full mt-2"/>
+                        <input type="file" accept="image/*" capture="user"
+                               onChange={(e) => handleImageChange(e, setImageSrc2)} className="border p-2 w-full mt-2"/>
                     </div>
                 </div>
             </div>
