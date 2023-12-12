@@ -11,11 +11,13 @@
       "generator",
       "react",
       "typescript",
-      "vite"
+      "vite",
+        "tailwindcss",
+      "compare"
     ],
     "repository": {
       "type": "git",
-      "url": "git+"
+      "url": "https://github.com/mamadfar/histogram_react"
     },
   "scripts": {
     "dev": "vite",
